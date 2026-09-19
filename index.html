@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, user-scalable=no">
+
+  <title>Над Самарой — Живая открытка</title>
+
+  <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: #000;
+    }
+
+    #hint {
+      position: fixed;
+      z-index: 9999;
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%);
+      width: 82%;
+      max-width: 420px;
+      padding: 14px 18px;
+      box-sizing: border-box;
+
+      color: white;
+      background: rgba(0,0,0,0.65);
+      border-radius: 16px;
+      text-align: center;
+      font-size: 17px;
+      line-height: 1.3;
+    }
+
+    #brand {
+      position: fixed;
+      z-index: 9999;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+
+      color: white;
+      font-size: 19px;
+      font-weight: bold;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+    }
+  </style>
+
+  <script>
+    AFRAME.registerComponent('video-controller', {
+      init: function () {
+        const video = document.querySelector('#arena-video');
+        const hint = document.querySelector('#hint');
+
+        this.el.addEventListener('targetFound', () => {
+          hint.innerHTML = 'Самара Арена ожила ✨';
+          video.currentTime = 0;
+          video.play();
+        });
+
+        this.el.addEventListener('targetLost', () => {
+          hint.innerHTML = 'Наведите камеру на открытку';
+          video.pause();
+        });
+      }
+    });
+  </script>
+</head>
+
+<body>
+
+<div id="brand">НАД САМАРОЙ</div>
+
+<div id="hint">
+  Наведите камеру на открытку
+</div>
+
+<a-scene
+  mindar-image="imageTargetSrc: ./targets.mind;"
+  color-space="sRGB"
+  renderer="colorManagement: true; physicallyCorrectLights: true;"
+  vr-mode-ui="enabled: false"
+  device-orientation-permission-ui="enabled: false">
+
+  <a-assets>
+    <video
+      id="arena-video"
+      src="./2026-09-19%2009.06.10.mp4"
+      preload="auto"
+      loop
+      muted
+      playsinline
+      webkit-playsinline>
+    </video>
+  </a-assets>
+
+  <a-camera
+    position="0 0 0"
+    look-controls="enabled: false">
+  </a-camera>
+
+  <a-entity
+    mindar-image-target="targetIndex: 0"
+    video-controller>
+
+    <a-video
+      src="#arena-video"
+      position="0 0 0"
+      width="1"
+      height="0.667">
+    </a-video>
+
+  </a-entity>
+
+</a-scene>
+
+</body>
+</html>
