@@ -1,199 +1,313 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no"
+  >
+
   <title>Над Самарой — Живая открытка</title>
 
   <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
   <style>
-    :root {
-      --white: #ffffff;
-      --dark: rgba(0, 0, 0, 0.72);
-      --dark-soft: rgba(0, 0, 0, 0.52);
-      --accent: #2f80ed;
-      --accent-soft: rgba(47, 128, 237, 0.18);
-    }
-
     * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
     }
 
-    html, body {
+    html,
+    body {
       margin: 0;
       padding: 0;
-      overflow: hidden;
       width: 100%;
       height: 100%;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      background: #000;
-      color: var(--white);
-    }
+      overflow: hidden;
 
-    a {
-      color: inherit;
-      text-decoration: none;
+      background: #000;
+      color: #fff;
+
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
     }
 
     #start-screen {
       position: fixed;
       inset: 0;
+
       z-index: 10000;
+
       display: flex;
       align-items: center;
       justify-content: center;
+
       padding: 20px;
+
       background:
-        linear-gradient(180deg, rgba(0,0,0,0.72), rgba(0,0,0,0.88)),
-        radial-gradient(circle at top, rgba(47,128,237,0.28), transparent 45%),
+        linear-gradient(
+          180deg,
+          rgba(0,0,0,0.72),
+          rgba(0,0,0,0.9)
+        ),
+        radial-gradient(
+          circle at top,
+          rgba(47,128,237,0.30),
+          transparent 45%
+        ),
         #000;
     }
 
     #start-card {
       width: 100%;
       max-width: 460px;
-      border-radius: 24px;
+
       padding: 28px 22px 24px;
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.12);
-      box-shadow: 0 18px 50px rgba(0,0,0,0.45);
+
       text-align: center;
+
+      border-radius: 24px;
+
+      background: rgba(255,255,255,0.08);
+
+      border:
+        1px solid
+        rgba(255,255,255,0.12);
+
+      backdrop-filter: blur(10px);
+
+      box-shadow:
+        0 18px 50px
+        rgba(0,0,0,0.45);
     }
 
     #project-name {
-      font-size: 14px;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      opacity: 0.9;
       margin-bottom: 10px;
+
+      font-size: 14px;
+      font-weight: 600;
+
+      letter-spacing: 0.22em;
+
+      text-transform: uppercase;
     }
 
     #title {
+      margin:
+        0 0 10px;
+
       font-size: 30px;
       font-weight: 800;
+
       line-height: 1.15;
-      margin: 0 0 10px;
     }
 
     #subtitle {
+      margin:
+        0 0 20px;
+
       font-size: 17px;
+
       line-height: 1.45;
+
       opacity: 0.92;
-      margin: 0 0 20px;
     }
 
     .steps {
-      text-align: left;
-      margin: 0 auto 22px;
+      max-width: 350px;
+
+      margin:
+        0 auto 22px;
+
       padding: 0;
+
+      text-align: left;
+
       list-style: none;
-      max-width: 340px;
     }
 
     .steps li {
       margin-bottom: 10px;
-      padding: 12px 14px;
+
+      padding:
+        12px 14px;
+
       border-radius: 14px;
-      background: rgba(255,255,255,0.07);
+
+      background:
+        rgba(255,255,255,0.07);
+
       font-size: 15px;
+
       line-height: 1.35;
     }
 
-    .steps li span {
+    .steps span {
       display: inline-block;
-      min-width: 22px;
+
+      min-width: 24px;
+
       font-weight: 700;
+
       color: #9fd0ff;
     }
 
     #start-btn {
       width: 100%;
+
+      padding:
+        16px 18px;
+
       border: 0;
+
       border-radius: 16px;
-      padding: 16px 18px;
+
+      color: #fff;
+
       font-size: 18px;
       font-weight: 700;
-      color: #fff;
-      background: linear-gradient(135deg, #2f80ed, #56ccf2);
+
       cursor: pointer;
-      box-shadow: 0 10px 24px rgba(47,128,237,0.4);
+
+      background:
+        linear-gradient(
+          135deg,
+          #2f80ed,
+          #56ccf2
+        );
+
+      box-shadow:
+        0 10px 24px
+        rgba(47,128,237,0.4);
     }
 
-    #start-note {
-      margin-top: 12px;
+    #author {
+      margin-top: 13px;
+
       font-size: 13px;
-      line-height: 1.4;
-      opacity: 0.72;
+
+      opacity: 0.7;
     }
 
     #brand {
       position: fixed;
+
+      z-index: 9999;
+
       top: 16px;
       left: 50%;
-      transform: translateX(-50%);
-      z-index: 9999;
-      padding: 10px 16px;
+
+      transform:
+        translateX(-50%);
+
+      padding:
+        10px 16px;
+
       border-radius: 999px;
-      background: rgba(0,0,0,0.45);
-      backdrop-filter: blur(8px);
+
+      background:
+        rgba(0,0,0,0.45);
+
+      backdrop-filter:
+        blur(8px);
+
       font-size: 14px;
       font-weight: 700;
+
       letter-spacing: 0.12em;
-      text-transform: uppercase;
-      text-align: center;
+
       white-space: nowrap;
-      box-shadow: 0 4px 18px rgba(0,0,0,0.28);
     }
 
     #hint {
       position: fixed;
+
+      z-index: 9999;
+
       left: 50%;
       bottom: 26px;
-      transform: translateX(-50%);
-      z-index: 9999;
-      width: calc(100% - 28px);
+
+      transform:
+        translateX(-50%);
+
+      width:
+        calc(100% - 28px);
+
       max-width: 430px;
-      padding: 14px 18px;
+
+      padding:
+        14px 18px;
+
       border-radius: 18px;
-      background: rgba(0,0,0,0.58);
-      backdrop-filter: blur(8px);
+
       text-align: center;
+
+      background:
+        rgba(0,0,0,0.58);
+
+      backdrop-filter:
+        blur(8px);
+
       font-size: 16px;
+
       line-height: 1.35;
-      box-shadow: 0 8px 30px rgba(0,0,0,0.28);
+
+      box-shadow:
+        0 8px 30px
+        rgba(0,0,0,0.28);
     }
 
     #sound-btn {
       position: fixed;
+
+      z-index: 9999;
+
       right: 16px;
       bottom: 100px;
-      z-index: 9999;
+
       display: none;
+
+      padding:
+        12px 16px;
+
       border: 0;
+
       border-radius: 999px;
-      padding: 12px 16px;
-      background: rgba(0,0,0,0.64);
+
       color: #fff;
+
+      background:
+        rgba(0,0,0,0.65);
+
+      backdrop-filter:
+        blur(8px);
+
       font-size: 15px;
       font-weight: 700;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-      cursor: pointer;
     }
 
     #status-dot {
       display: inline-block;
+
       width: 8px;
       height: 8px;
+
       margin-right: 8px;
+
       border-radius: 50%;
+
       background: #7CFC00;
-      box-shadow: 0 0 10px rgba(124,252,0,0.8);
-      vertical-align: middle;
+
+      box-shadow:
+        0 0 10px
+        rgba(124,252,0,0.8);
     }
 
     .hidden {
@@ -201,161 +315,958 @@
     }
   </style>
 
+
   <script>
+
     let video;
     let hint;
     let soundBtn;
     let startScreen;
     let sceneEl;
+
     let arStarted = false;
+
     let targetVisible = false;
+
     let soundEnabled = false;
 
+    let videoStarted = false;
+
+
     function updateSoundButton() {
-      if (!soundBtn) return;
-      soundBtn.textContent = soundEnabled ? "🔇 Без звука" : "🔊 Включить звук";
+
+      if (!soundBtn) {
+        return;
+      }
+
+      soundBtn.textContent =
+        soundEnabled
+        ? "🔇 Без звука"
+        : "🔊 Включить звук";
+
     }
+
+
+    function actuallyStartAR() {
+
+      const mindarSystem =
+        sceneEl.systems[
+          "mindar-image-system"
+        ];
+
+      if (mindarSystem) {
+
+        mindarSystem.start();
+
+      }
+
+    }
+
 
     function startAR() {
-      if (arStarted) return;
+
+      if (arStarted) {
+        return;
+      }
+
       arStarted = true;
 
-      startScreen.classList.add("hidden");
+      startScreen.classList.add(
+        "hidden"
+      );
 
-      const mindarSystem = sceneEl.systems["mindar-image-system"];
-      if (mindarSystem) {
-        mindarSystem.start();
+
+      if (sceneEl.hasLoaded) {
+
+        actuallyStartAR();
+
+      } else {
+
+        sceneEl.addEventListener(
+          "loaded",
+          actuallyStartAR,
+          { once: true }
+        );
+
       }
+
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
-      video = document.querySelector("#arena-video");
-      hint = document.querySelector("#hint");
-      soundBtn = document.querySelector("#sound-btn");
-      startScreen = document.querySelector("#start-screen");
-      sceneEl = document.querySelector("a-scene");
 
-      updateSoundButton();
 
-      document.querySelector("#start-btn").addEventListener("click", startAR);
+    AFRAME.registerComponent(
+      "video-fx",
+      {
 
-      soundBtn.addEventListener("click", async () => {
-        soundEnabled = !soundEnabled;
-        video.muted = !soundEnabled;
+        schema: {
+
+          video: {
+            type: "selector"
+          }
+
+        },
+
+
+        init: function () {
+
+          const video =
+            this.data.video;
+
+
+          this.texture =
+            new THREE.VideoTexture(
+              video
+            );
+
+
+          this.texture.minFilter =
+            THREE.LinearFilter;
+
+          this.texture.magFilter =
+            THREE.LinearFilter;
+
+          this.texture.generateMipmaps =
+            false;
+
+
+          if (
+            THREE.SRGBColorSpace
+          ) {
+
+            this.texture.colorSpace =
+              THREE.SRGBColorSpace;
+
+          }
+
+
+          this.material =
+            new THREE.ShaderMaterial({
+
+              transparent: true,
+
+              depthWrite: false,
+
+              uniforms: {
+
+                map: {
+                  value:
+                    this.texture
+                },
+
+                opacityValue: {
+                  value: 0
+                },
+
+                blurAmount: {
+                  value: 5
+                },
+
+                texelSize: {
+                  value:
+                    new THREE.Vector2(
+                      1 / 720,
+                      1 / 480
+                    )
+                }
+
+              },
+
+
+              vertexShader: `
+
+                varying vec2 vUv;
+
+                void main() {
+
+                  vUv = uv;
+
+                  gl_Position =
+                    projectionMatrix *
+                    modelViewMatrix *
+                    vec4(
+                      position,
+                      1.0
+                    );
+
+                }
+
+              `,
+
+
+              fragmentShader: `
+
+                uniform sampler2D map;
+
+                uniform float
+                  opacityValue;
+
+                uniform float
+                  blurAmount;
+
+                uniform vec2
+                  texelSize;
+
+
+                varying vec2 vUv;
+
+
+                void main() {
+
+                  vec2 o =
+                    texelSize *
+                    blurAmount;
+
+
+                  vec4 color =
+                    texture2D(
+                      map,
+                      vUv
+                    ) * 0.25;
+
+
+                  color +=
+                    texture2D(
+                      map,
+                      vUv +
+                      vec2(
+                        o.x,
+                        0.0
+                      )
+                    ) * 0.125;
+
+
+                  color +=
+                    texture2D(
+                      map,
+                      vUv +
+                      vec2(
+                        -o.x,
+                        0.0
+                      )
+                    ) * 0.125;
+
+
+                  color +=
+                    texture2D(
+                      map,
+                      vUv +
+                      vec2(
+                        0.0,
+                        o.y
+                      )
+                    ) * 0.125;
+
+
+                  color +=
+                    texture2D(
+                      map,
+                      vUv +
+                      vec2(
+                        0.0,
+                        -o.y
+                      )
+                    ) * 0.125;
+
+
+                  color +=
+                    texture2D(
+                      map,
+                      vUv +
+                      vec2(
+                        o.x,
+                        o.y
+                      )
+                    ) * 0.0625;
+
+
+                  color +=
+                    texture2D(
+                      map,
+                      vUv +
+                      vec2(
+                        -o.x,
+                        o.y
+                      )
+                    ) * 0.0625;
+
+
+                  color +=
+                    texture2D(
+                      map,
+                      vUv +
+                      vec2(
+                        o.x,
+                        -o.y
+                      )
+                    ) * 0.0625;
+
+
+                  color +=
+                    texture2D(
+                      map,
+                      vUv +
+                      vec2(
+                        -o.x,
+                        -o.y
+                      )
+                    ) * 0.0625;
+
+
+                  color.a *=
+                    opacityValue;
+
+
+                  gl_FragColor =
+                    color;
+
+                }
+
+              `
+
+            });
+
+
+          const applyMaterial =
+            () => {
+
+              const mesh =
+                this.el.getObject3D(
+                  "mesh"
+                );
+
+              if (mesh) {
+
+                mesh.material =
+                  this.material;
+
+              }
+
+            };
+
+
+          applyMaterial();
+
+
+          this.el.addEventListener(
+            "object3dset",
+            applyMaterial
+          );
+
+
+          video.addEventListener(
+            "loadedmetadata",
+            () => {
+
+              if (
+                video.videoWidth &&
+                video.videoHeight
+              ) {
+
+                this.material
+                  .uniforms
+                  .texelSize
+                  .value
+                  .set(
+
+                    1 /
+                    video.videoWidth,
+
+                    1 /
+                    video.videoHeight
+
+                  );
+
+              }
+
+            }
+          );
+
+
+          this.animationFrame =
+            null;
+
+        },
+
+
+        hide: function () {
+
+          if (
+            this.animationFrame
+          ) {
+
+            cancelAnimationFrame(
+              this.animationFrame
+            );
+
+          }
+
+
+          this.material
+            .uniforms
+            .opacityValue
+            .value = 0;
+
+
+          this.material
+            .uniforms
+            .blurAmount
+            .value = 5;
+
+        },
+
+
+        reveal: function (
+          duration = 800
+        ) {
+
+          if (
+            this.animationFrame
+          ) {
+
+            cancelAnimationFrame(
+              this.animationFrame
+            );
+
+          }
+
+
+          const startTime =
+            performance.now();
+
+
+          const animate =
+            (now) => {
+
+
+              let progress =
+                (
+                  now -
+                  startTime
+                ) /
+                duration;
+
+
+              progress =
+                Math.min(
+                  Math.max(
+                    progress,
+                    0
+                  ),
+                  1
+                );
+
+
+              const eased =
+                1 -
+                Math.pow(
+                  1 - progress,
+                  3
+                );
+
+
+              this.material
+                .uniforms
+                .opacityValue
+                .value =
+                  eased;
+
+
+              this.material
+                .uniforms
+                .blurAmount
+                .value =
+                  5 *
+                  (
+                    1 -
+                    eased
+                  );
+
+
+              if (
+                progress < 1
+              ) {
+
+                this.animationFrame =
+                  requestAnimationFrame(
+                    animate
+                  );
+
+              } else {
+
+                this.material
+                  .uniforms
+                  .opacityValue
+                  .value = 1;
+
+
+                this.material
+                  .uniforms
+                  .blurAmount
+                  .value = 0;
+
+              }
+
+            };
+
+
+          this.animationFrame =
+            requestAnimationFrame(
+              animate
+            );
+
+        }
+
+      }
+    );
+
+
+
+    AFRAME.registerComponent(
+      "video-controller",
+      {
+
+        init: function () {
+
+          const plane =
+            document.querySelector(
+              "#video-plane"
+            );
+
+
+          let showTimer =
+            null;
+
+
+          this.el.addEventListener(
+            "targetFound",
+            () => {
+
+
+              targetVisible =
+                true;
+
+
+              videoStarted =
+                false;
+
+
+              const fx =
+                plane.components[
+                  "video-fx"
+                ];
+
+
+              if (fx) {
+                fx.hide();
+              }
+
+
+              video.pause();
+
+              video.currentTime =
+                0;
+
+
+              hint.innerHTML =
+                '<span id="status-dot"></span>Открытка найдена…';
+
+
+              soundBtn.style.display =
+                "none";
+
+
+              clearTimeout(
+                showTimer
+              );
+
+
+              /*
+               ЖДЁМ 1 СЕКУНДУ
+              */
+
+              showTimer =
+                setTimeout(
+                  async () => {
+
+
+                    if (
+                      !targetVisible
+                    ) {
+                      return;
+                    }
+
+
+                    videoStarted =
+                      true;
+
+
+                    try {
+
+                      await video.play();
+
+                    } catch (e) {
+
+                      console.log(
+                        "Video play error:",
+                        e
+                      );
+
+                    }
+
+
+                    hint.innerHTML =
+                      '<span id="status-dot"></span>Самара Арена ожила ✨';
+
+
+                    soundBtn.style.display =
+                      "block";
+
+
+                    /*
+                     ПЛАВНОЕ ПОЯВЛЕНИЕ
+                     + РАЗМЫТИЕ → РЕЗКОСТЬ
+                     за 0,8 секунды
+                    */
+
+                    if (fx) {
+
+                      fx.reveal(
+                        800
+                      );
+
+                    }
+
+
+                  },
+
+                  1000
+                );
+
+            }
+          );
+
+
+
+          this.el.addEventListener(
+            "targetLost",
+            () => {
+
+
+              targetVisible =
+                false;
+
+
+              videoStarted =
+                false;
+
+
+              clearTimeout(
+                showTimer
+              );
+
+
+              video.pause();
+
+
+              const fx =
+                plane.components[
+                  "video-fx"
+                ];
+
+
+              if (fx) {
+                fx.hide();
+              }
+
+
+              hint.innerHTML =
+                "Наведите камеру на открытку";
+
+
+              soundBtn.style.display =
+                "none";
+
+            }
+          );
+
+        }
+
+      }
+    );
+
+
+
+    window.addEventListener(
+      "DOMContentLoaded",
+      () => {
+
+
+        video =
+          document.querySelector(
+            "#arena-video"
+          );
+
+
+        hint =
+          document.querySelector(
+            "#hint"
+          );
+
+
+        soundBtn =
+          document.querySelector(
+            "#sound-btn"
+          );
+
+
+        startScreen =
+          document.querySelector(
+            "#start-screen"
+          );
+
+
+        sceneEl =
+          document.querySelector(
+            "a-scene"
+          );
+
+
         updateSoundButton();
 
-        if (targetVisible) {
-          try {
-            await video.play();
-          } catch (e) {
-            console.log("Video play blocked:", e);
-          }
-        }
-      });
 
-      sceneEl.addEventListener("loaded", () => {
-        const mindarSystem = sceneEl.systems["mindar-image-system"];
-        if (mindarSystem) {
-          mindarSystem.stop();
-        }
-      });
-    });
+        document
+          .querySelector(
+            "#start-btn"
+          )
+          .addEventListener(
+            "click",
+            startAR
+          );
 
-    AFRAME.registerComponent("video-controller", {
-      init: function () {
-        this.el.addEventListener("targetFound", async () => {
-          targetVisible = true;
-          hint.innerHTML = '<span id="status-dot"></span>Самара Арена ожила ✨';
-          soundBtn.style.display = "block";
-          video.currentTime = 0;
 
-          try {
-            await video.play();
-          } catch (e) {
-            console.log("Video play error:", e);
-          }
-        });
+        soundBtn
+          .addEventListener(
+            "click",
+            async () => {
 
-        this.el.addEventListener("targetLost", () => {
-          targetVisible = false;
-          hint.innerHTML = "Наведите камеру на открытку";
-          soundBtn.style.display = "none";
-          video.pause();
-        });
+
+              soundEnabled =
+                !soundEnabled;
+
+
+              video.muted =
+                !soundEnabled;
+
+
+              updateSoundButton();
+
+
+              if (
+                videoStarted &&
+                targetVisible
+              ) {
+
+                try {
+
+                  await video.play();
+
+                } catch (e) {
+
+                  console.log(
+                    e
+                  );
+
+                }
+
+              }
+
+            }
+          );
+
       }
-    });
+    );
+
   </script>
+
 </head>
+
 
 <body>
 
+
   <div id="start-screen">
+
     <div id="start-card">
-      <div id="project-name">Над Самарой</div>
-      <h1 id="title">Живая открытка</h1>
+
+      <div id="project-name">
+        Над Самарой
+      </div>
+
+      <h1 id="title">
+        Живая открытка
+      </h1>
+
       <p id="subtitle">
-        Самара Арена оживает прямо на экране телефона
+        Самара Арена оживает прямо
+        на экране телефона
       </p>
 
+
       <ul class="steps">
-        <li><span>1.</span> Нажмите кнопку «Запустить открытку»</li>
-        <li><span>2.</span> Разрешите доступ к камере</li>
-        <li><span>3.</span> Наведите телефон на фотографию</li>
+
+        <li>
+          <span>1.</span>
+          Нажмите
+          «Запустить открытку»
+        </li>
+
+        <li>
+          <span>2.</span>
+          Разрешите доступ
+          к камере
+        </li>
+
+        <li>
+          <span>3.</span>
+          Наведите телефон
+          на фотографию
+        </li>
+
       </ul>
 
-      <button id="start-btn">Запустить открытку</button>
 
-      <div id="start-note">
-        Автор проекта: Бобин Сергей
+      <button id="start-btn">
+        Запустить открытку
+      </button>
+
+
+      <div id="author">
+        Проект «Над Самарой» ·
+        Бобин Сергей
       </div>
+
     </div>
+
   </div>
 
-  <div id="brand">НАД САМАРОЙ</div>
 
-  <div id="hint">Наведите камеру на открытку</div>
 
-  <button id="sound-btn">🔊 Включить звук</button>
+  <div id="brand">
+    НАД САМАРОЙ
+  </div>
+
+
+  <div id="hint">
+    Наведите камеру
+    на открытку
+  </div>
+
+
+  <button id="sound-btn">
+    🔊 Включить звук
+  </button>
+
+
 
   <a-scene
-    mindar-image="imageTargetSrc: ./targets.mind; autoStart: false;"
+
+    mindar-image="
+      imageTargetSrc:
+      ./targets.mind;
+      autoStart: false;
+    "
+
     color-space="sRGB"
-    renderer="colorManagement: true; physicallyCorrectLights: true;"
-    vr-mode-ui="enabled: false"
-    device-orientation-permission-ui="enabled: false"
-    embedded>
+
+    renderer="
+      colorManagement: true;
+      physicallyCorrectLights: true;
+    "
+
+    vr-mode-ui="
+      enabled: false
+    "
+
+    device-orientation-permission-ui="
+      enabled: false
+    "
+
+    embedded
+
+  >
+
 
     <a-assets>
+
       <video
+
         id="arena-video"
+
         src="./2026-09-19%2009.06.10.mp4"
+
         preload="auto"
+
         loop
+
         muted
+
         playsinline
+
         webkit-playsinline
-        crossorigin="anonymous">
-      </video>
+
+        crossorigin="anonymous"
+
+      ></video>
+
     </a-assets>
 
+
+
     <a-camera
+
       position="0 0 0"
-      look-controls="enabled: false">
-    </a-camera>
+
+      look-controls="
+        enabled: false
+      "
+
+    ></a-camera>
+
+
 
     <a-entity
-      mindar-image-target="targetIndex: 0"
-      video-controller>
 
-      <a-video
-        src="#arena-video"
+      mindar-image-target="
+        targetIndex: 0
+      "
+
+      video-controller
+
+    >
+
+
+      <a-plane
+
+        id="video-plane"
+
         position="0 0 0"
+
         width="1"
-        height="0.667">
-      </a-video>
+
+        height="0.667"
+
+        video-fx="
+          video: #arena-video
+        "
+
+      ></a-plane>
+
 
     </a-entity>
+
+
   </a-scene>
+
 
 </body>
 </html>
