@@ -3,27 +3,28 @@
 <head>
   <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, user-scalable=no"
-  >
+  <meta name="viewport"
+        content="width=device-width,
+        initial-scale=1.0,
+        user-scalable=no">
 
-  <!-- Чтобы телефон не держал старую версию страницы -->
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
+  <meta http-equiv="Cache-Control"
+        content="no-cache, no-store, must-revalidate">
+
+  <meta http-equiv="Pragma"
+        content="no-cache">
+
+  <meta http-equiv="Expires"
+        content="0">
 
   <title>Над Самарой — Живая открытка</title>
 
   <script src="https://aframe.io/releases/1.6.0/aframe.min.js"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
 
-  <style>
 
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
+  <style>
 
     html,
     body {
@@ -35,109 +36,28 @@
 
       overflow: hidden;
 
-      background: transparent !important;
-
-      color: white;
-
       font-family:
         -apple-system,
         BlinkMacSystemFont,
         "Segoe UI",
         Arial,
         sans-serif;
+
+      background: transparent;
     }
 
 
-    /*
-      КАМЕРА.
+    #ar-container {
 
-      MindAR создаёт отдельный video-элемент.
-      Принудительно помещаем его
-      НА ЗАДНИЙ ПЛАН.
-    */
+      position: absolute;
 
-    body > video:not(#arena-video) {
+      width: 100%;
+      height: 100%;
 
-      position: fixed !important;
-
-      top: 0 !important;
-      left: 0 !important;
-
-      width: 100vw !important;
-      height: 100vh !important;
-
-      object-fit: cover !important;
-
-      z-index: 0 !important;
-
-      display: block !important;
-
-      opacity: 1 !important;
-
-      visibility: visible !important;
-
-      background: transparent !important;
-    }
-
-
-    /*
-      AR-сцена идёт НАД камерой,
-      но сам WebGL-холст прозрачный.
-    */
-
-    a-scene {
-
-      position: fixed !important;
-
-      top: 0 !important;
-      left: 0 !important;
-
-      width: 100vw !important;
-      height: 100vh !important;
-
-      z-index: 1 !important;
-
-      background: transparent !important;
-    }
-
-
-    .a-canvas {
-
-      background:
-        transparent !important;
+      overflow: hidden;
 
     }
 
-
-    /*
-      Видео Самара Арены —
-      это не камера.
-
-      Оставляем его технически
-      существовать, но не показываем
-      как обычный HTML-video.
-    */
-
-    #arena-video {
-
-      position: fixed;
-
-      width: 1px;
-      height: 1px;
-
-      left: -100px;
-      top: -100px;
-
-      opacity: 0;
-
-      pointer-events: none;
-    }
-
-
-
-    /* -------------------------
-       СТАРТОВЫЙ ЭКРАН
-       ------------------------- */
 
     #start-screen {
 
@@ -154,50 +74,48 @@
 
       padding: 20px;
 
+      color: white;
+
       background:
         radial-gradient(
           circle at top,
-          rgba(41, 120, 190, 0.38),
+          rgba(42,125,205,0.38),
           transparent 45%
         ),
         linear-gradient(
           180deg,
-          rgba(5, 17, 28, 0.96),
-          rgba(0, 0, 0, 0.98)
+          rgba(5,16,28,0.96),
+          rgba(0,0,0,0.98)
         );
+
     }
 
 
     #start-card {
 
       width: 100%;
+      max-width: 430px;
 
-      max-width: 450px;
-
-      padding:
-        30px 22px 24px;
-
-      border-radius: 26px;
+      padding: 28px 22px;
 
       text-align: center;
 
+      border-radius: 24px;
+
       background:
-        rgba(255,255,255,0.09);
+        rgba(255,255,255,0.1);
 
       border:
         1px solid
-        rgba(255,255,255,0.15);
+        rgba(255,255,255,0.14);
 
       backdrop-filter:
-        blur(14px);
+        blur(12px);
 
-      box-shadow:
-        0 20px 60px
-        rgba(0,0,0,0.45);
     }
 
 
-    #project-name {
+    #project {
 
       margin-bottom: 10px;
 
@@ -205,80 +123,28 @@
 
       font-weight: 700;
 
-      letter-spacing: 0.22em;
+      letter-spacing: .18em;
 
-      text-transform: uppercase;
     }
 
 
     #title {
 
-      margin:
-        0 0 10px;
+      margin: 0 0 12px;
 
-      font-size: 31px;
+      font-size: 30px;
 
-      font-weight: 800;
-
-      line-height: 1.15;
     }
 
 
-    #subtitle {
+    #description {
 
-      margin:
-        0 0 22px;
-
-      font-size: 17px;
+      margin-bottom: 24px;
 
       line-height: 1.45;
 
-      opacity: 0.9;
-    }
+      opacity: .9;
 
-
-    .steps {
-
-      margin:
-        0 auto 22px;
-
-      padding: 0;
-
-      max-width: 350px;
-
-      list-style: none;
-
-      text-align: left;
-    }
-
-
-    .steps li {
-
-      margin-bottom: 9px;
-
-      padding:
-        12px 14px;
-
-      border-radius: 14px;
-
-      background:
-        rgba(255,255,255,0.07);
-
-      font-size: 15px;
-
-      line-height: 1.4;
-    }
-
-
-    .steps span {
-
-      display: inline-block;
-
-      min-width: 23px;
-
-      color: #9fd0ff;
-
-      font-weight: 800;
     }
 
 
@@ -286,83 +152,57 @@
 
       width: 100%;
 
-      padding:
-        16px 18px;
+      padding: 16px;
 
-      border: none;
+      border: 0;
 
-      border-radius: 17px;
+      border-radius: 16px;
 
       color: white;
 
       font-size: 18px;
 
-      font-weight: 750;
-
-      cursor: pointer;
+      font-weight: 700;
 
       background:
         linear-gradient(
           135deg,
-          #2878d5,
-          #55c8ef
+          #297bd7,
+          #55c9ee
         );
 
-      box-shadow:
-        0 10px 28px
-        rgba(34,122,213,0.38);
     }
 
-
-    #author {
-
-      margin-top: 14px;
-
-      font-size: 13px;
-
-      opacity: 0.66;
-    }
-
-
-
-    /* -------------------------
-       ЭЛЕМЕНТЫ ПОВЕРХ КАМЕРЫ
-       ------------------------- */
 
     #brand {
 
       position: fixed;
 
-      top: 16px;
+      z-index: 9000;
+
+      top: 17px;
       left: 50%;
 
       transform:
         translateX(-50%);
 
-      z-index: 9000;
-
       padding:
-        9px 15px;
+        10px 18px;
 
       border-radius: 999px;
 
+      color: white;
+
       background:
-        rgba(0,0,0,0.42);
+        rgba(0,0,0,.47);
 
       backdrop-filter:
         blur(10px);
 
-      font-size: 14px;
+      font-weight: 700;
 
-      font-weight: 750;
+      letter-spacing: .12em;
 
-      letter-spacing: 0.11em;
-
-      white-space: nowrap;
-
-      text-shadow:
-        0 1px 3px
-        rgba(0,0,0,0.6);
     }
 
 
@@ -370,13 +210,13 @@
 
       position: fixed;
 
+      z-index: 9000;
+
+      bottom: 25px;
       left: 50%;
-      bottom: 26px;
 
       transform:
         translateX(-50%);
-
-      z-index: 9000;
 
       width:
         calc(100% - 30px);
@@ -384,25 +224,24 @@
       max-width: 430px;
 
       padding:
-        14px 18px;
+        15px 18px;
+
+      box-sizing: border-box;
 
       border-radius: 18px;
+
+      color: white;
 
       text-align: center;
 
       background:
-        rgba(0,0,0,0.50);
+        rgba(0,0,0,.55);
 
       backdrop-filter:
         blur(10px);
 
-      box-shadow:
-        0 7px 25px
-        rgba(0,0,0,0.25);
-
       font-size: 16px;
 
-      line-height: 1.35;
     }
 
 
@@ -410,7 +249,7 @@
 
       position: fixed;
 
-      z-index: 9000;
+      z-index: 9001;
 
       right: 16px;
       bottom: 98px;
@@ -418,27 +257,35 @@
       display: none;
 
       padding:
-        12px 16px;
+        13px 17px;
 
-      border: none;
+      border: 0;
 
       border-radius: 999px;
 
       color: white;
 
       background:
-        rgba(0,0,0,0.55);
+        rgba(0,0,0,.58);
 
       backdrop-filter:
         blur(10px);
 
-      font-size: 14px;
+      font-size: 15px;
 
       font-weight: 700;
+
     }
 
 
-    #status-dot {
+    .hidden {
+
+      display: none !important;
+
+    }
+
+
+    .green-dot {
 
       display: inline-block;
 
@@ -449,961 +296,487 @@
 
       border-radius: 50%;
 
-      background: #76ff62;
+      background: #65ff57;
 
       box-shadow:
         0 0 10px
-        rgba(118,255,98,0.85);
-    }
-
-
-    .hidden {
-
-      display: none !important;
+        rgba(101,255,87,.8);
 
     }
 
   </style>
 
 
-
   <script>
 
-    let video;
-    let sceneEl;
-    let hint;
-    let soundBtn;
-    let startScreen;
-
-    let targetVisible = false;
-    let soundEnabled = false;
-
-    let arStarted = false;
-
-
-    /*
-      -------------------------
-      ПРИНУДИТЕЛЬНО ПОКАЗЫВАЕМ
-      ВИДЕО КАМЕРЫ
-      -------------------------
-    */
-
-    function forceCameraBackground() {
-
-      const allVideos =
-        document.querySelectorAll("video");
-
-
-      allVideos.forEach((v) => {
-
-        /*
-          Наш ролик со стадионом
-          не трогаем.
-        */
-
-        if (
-          v.id === "arena-video"
-        ) {
-          return;
-        }
-
-
-        v.style.setProperty(
-          "position",
-          "fixed",
-          "important"
-        );
-
-        v.style.setProperty(
-          "top",
-          "0",
-          "important"
-        );
-
-        v.style.setProperty(
-          "left",
-          "0",
-          "important"
-        );
-
-        v.style.setProperty(
-          "width",
-          "100vw",
-          "important"
-        );
-
-        v.style.setProperty(
-          "height",
-          "100vh",
-          "important"
-        );
-
-        v.style.setProperty(
-          "object-fit",
-          "cover",
-          "important"
-        );
-
-        v.style.setProperty(
-          "z-index",
-          "0",
-          "important"
-        );
-
-        v.style.setProperty(
-          "opacity",
-          "1",
-          "important"
-        );
-
-        v.style.setProperty(
-          "visibility",
-          "visible",
-          "important"
-        );
-
-        v.style.setProperty(
-          "display",
-          "block",
-          "important"
-        );
-
-      });
-
-    }
-
-
-
-    /*
-      -------------------------
-      ЭФФЕКТ:
-      РАЗМЫТИЕ → РЕЗКОСТЬ
-      + ПРОЯВЛЕНИЕ
-      -------------------------
-    */
-
-    AFRAME.registerComponent(
-      "video-fx",
-      {
-
-        schema: {
-
-          video: {
-            type: "selector"
-          }
-
-        },
-
-
-        init: function () {
-
-          const sourceVideo =
-            this.data.video;
-
-
-          this.texture =
-            new THREE.VideoTexture(
-              sourceVideo
-            );
-
-
-          this.texture.minFilter =
-            THREE.LinearFilter;
-
-          this.texture.magFilter =
-            THREE.LinearFilter;
-
-
-          if (
-            THREE.SRGBColorSpace
-          ) {
-
-            this.texture.colorSpace =
-              THREE.SRGBColorSpace;
-
-          }
-
-
-          this.material =
-            new THREE.ShaderMaterial({
-
-              transparent: true,
-
-              depthWrite: false,
-
-              uniforms: {
-
-                map: {
-                  value: this.texture
-                },
-
-                opacityValue: {
-                  value: 0
-                },
-
-                blurAmount: {
-                  value: 4
-                },
-
-                texelSize: {
-                  value:
-                    new THREE.Vector2(
-                      1 / 720,
-                      1 / 480
-                    )
-                }
-
-              },
-
-
-              vertexShader: `
-
-                varying vec2 vUv;
-
-                void main() {
-
-                  vUv = uv;
-
-                  gl_Position =
-                    projectionMatrix *
-                    modelViewMatrix *
-                    vec4(
-                      position,
-                      1.0
-                    );
-
-                }
-
-              `,
-
-
-              fragmentShader: `
-
-                uniform sampler2D map;
-
-                uniform float opacityValue;
-
-                uniform float blurAmount;
-
-                uniform vec2 texelSize;
-
-                varying vec2 vUv;
-
-
-                void main() {
-
-                  vec2 o =
-                    texelSize *
-                    blurAmount;
-
-
-                  vec4 c =
-                    texture2D(
-                      map,
-                      vUv
-                    ) * 0.40;
-
-
-                  c +=
-                    texture2D(
-                      map,
-                      vUv +
-                      vec2(o.x, 0.0)
-                    ) * 0.10;
-
-
-                  c +=
-                    texture2D(
-                      map,
-                      vUv -
-                      vec2(o.x, 0.0)
-                    ) * 0.10;
-
-
-                  c +=
-                    texture2D(
-                      map,
-                      vUv +
-                      vec2(0.0, o.y)
-                    ) * 0.10;
-
-
-                  c +=
-                    texture2D(
-                      map,
-                      vUv -
-                      vec2(0.0, o.y)
-                    ) * 0.10;
-
-
-                  c +=
-                    texture2D(
-                      map,
-                      vUv +
-                      vec2(o.x, o.y)
-                    ) * 0.05;
-
-
-                  c +=
-                    texture2D(
-                      map,
-                      vUv +
-                      vec2(-o.x, o.y)
-                    ) * 0.05;
-
-
-                  c +=
-                    texture2D(
-                      map,
-                      vUv +
-                      vec2(o.x, -o.y)
-                    ) * 0.05;
-
-
-                  c +=
-                    texture2D(
-                      map,
-                      vUv +
-                      vec2(-o.x, -o.y)
-                    ) * 0.05;
-
-
-                  c.a *=
-                    opacityValue;
-
-
-                  gl_FragColor = c;
-
-                }
-
-              `
-
-            });
-
-
-
-          const applyMaterial =
-            () => {
-
-              const mesh =
-                this.el.getObject3D(
-                  "mesh"
-                );
-
-
-              if (mesh) {
-
-                mesh.material =
-                  this.material;
-
-              }
-
-            };
-
-
-          applyMaterial();
-
-
-          this.el.addEventListener(
-            "object3dset",
-            applyMaterial
-          );
-
-
-          sourceVideo.addEventListener(
-            "loadedmetadata",
-            () => {
-
-              if (
-                sourceVideo.videoWidth &&
-                sourceVideo.videoHeight
-              ) {
-
-                this.material
-                  .uniforms
-                  .texelSize
-                  .value
-                  .set(
-
-                    1 /
-                    sourceVideo.videoWidth,
-
-                    1 /
-                    sourceVideo.videoHeight
-
-                  );
-
-              }
-
-            }
-          );
-
-
-          this.animationFrame =
-            null;
-
-        },
-
-
-
-        hide: function () {
-
-          if (
-            this.animationFrame
-          ) {
-
-            cancelAnimationFrame(
-              this.animationFrame
-            );
-
-          }
-
-
-          this.material
-            .uniforms
-            .opacityValue
-            .value = 0;
-
-
-          this.material
-            .uniforms
-            .blurAmount
-            .value = 4;
-
-        },
-
-
-
-        reveal: function (
-          duration = 800
-        ) {
-
-          if (
-            this.animationFrame
-          ) {
-
-            cancelAnimationFrame(
-              this.animationFrame
-            );
-
-          }
-
-
-          const start =
-            performance.now();
-
-
-          const animate =
-            (now) => {
-
-
-              let progress =
-                (
-                  now -
-                  start
-                ) /
-                duration;
-
-
-              progress =
-                Math.min(
-                  1,
-                  Math.max(
-                    0,
-                    progress
-                  )
-                );
-
-
-              /*
-                Плавное проявление
-              */
-
-              const eased =
-                1 -
-                Math.pow(
-                  1 - progress,
-                  3
-                );
-
-
-              this.material
-                .uniforms
-                .opacityValue
-                .value =
-                  eased;
-
-
-              /*
-                Размытие:
-                4 → 0
-              */
-
-              this.material
-                .uniforms
-                .blurAmount
-                .value =
-                  4 *
-                  (
-                    1 -
-                    eased
-                  );
-
-
-              if (
-                progress < 1
-              ) {
-
-                this.animationFrame =
-                  requestAnimationFrame(
-                    animate
-                  );
-
-              } else {
-
-                this.material
-                  .uniforms
-                  .opacityValue
-                  .value = 1;
-
-
-                this.material
-                  .uniforms
-                  .blurAmount
-                  .value = 0;
-
-              }
-
-            };
-
-
-          this.animationFrame =
-            requestAnimationFrame(
-              animate
-            );
-
-        }
-
-      }
-    );
-
-
-
-
-    /*
-      -------------------------
-      РАСПОЗНАВАНИЕ ОТКРЫТКИ
-      -------------------------
-    */
-
-    AFRAME.registerComponent(
-      "video-controller",
-      {
-
-        init: function () {
-
-          const plane =
-            document.querySelector(
-              "#video-plane"
-            );
-
-
-          let timer = null;
-
-
-
-          /*
-            НАШЛИ ОТКРЫТКУ
-          */
-
-          this.el.addEventListener(
-            "targetFound",
-            () => {
-
-
-              targetVisible =
-                true;
-
-
-              clearTimeout(
-                timer
-              );
-
-
-              /*
-                Видео пока вообще
-                скрываем.
-              */
-
-              plane.setAttribute(
-                "visible",
-                false
-              );
-
-
-              const fx =
-                plane.components[
-                  "video-fx"
-                ];
-
-
-              if (fx) {
-
-                fx.hide();
-
-              }
-
-
-              video.pause();
-
-
-              try {
-
-                video.currentTime =
-                  0;
-
-              } catch (e) {}
-
-
-              hint.innerHTML =
-                '<span id="status-dot"></span>Открытка найдена…';
-
-
-              soundBtn.style.display =
-                "none";
-
-
-
-              /*
-                ЖЁСТКАЯ ЗАДЕРЖКА
-                1 СЕКУНДА
-              */
-
-              timer =
-                setTimeout(
-                  async () => {
-
-
-                    if (
-                      !targetVisible
-                    ) {
-
-                      return;
-
-                    }
-
-
-                    /*
-                      Только СЕЙЧАС
-                      создаём видимое
-                      AR-видео.
-                    */
-
-                    plane.setAttribute(
-                      "visible",
-                      true
-                    );
-
-
-                    try {
-
-                      await video.play();
-
-                    } catch (e) {
-
-                      console.log(
-                        "Video play:",
-                        e
-                      );
-
-                    }
-
-
-                    if (fx) {
-
-                      fx.reveal(
-                        800
-                      );
-
-                    }
-
-
-                    hint.innerHTML =
-                      '<span id="status-dot"></span>Самара Арена ожила ✨';
-
-
-                    soundBtn.style.display =
-                      "block";
-
-
-                  },
-
-                  1000
-                );
-
-            }
-          );
-
-
-
-
-          /*
-            ПОТЕРЯЛИ ОТКРЫТКУ
-          */
-
-          this.el.addEventListener(
-            "targetLost",
-            () => {
-
-
-              targetVisible =
-                false;
-
-
-              clearTimeout(
-                timer
-              );
-
-
-              video.pause();
-
-
-              plane.setAttribute(
-                "visible",
-                false
-              );
-
-
-              const fx =
-                plane.components[
-                  "video-fx"
-                ];
-
-
-              if (fx) {
-
-                fx.hide();
-
-              }
-
-
-              hint.innerHTML =
-                "Наведите камеру на открытку";
-
-
-              soundBtn.style.display =
-                "none";
-
-            }
-          );
-
-        }
-
-      }
-    );
-
-
-
-
-    /*
-      -------------------------
-      ЗАПУСК AR
-      -------------------------
-    */
-
-    function startAR() {
-
-      if (
-        arStarted
-      ) {
-        return;
-      }
-
-
-      arStarted = true;
-
-
-      /*
-        Пользователь нажал кнопку —
-        это хорошее место,
-        чтобы "разблокировать"
-        воспроизведение видео на iPhone.
-      */
-
-      video.muted = true;
-
-
-      video.play()
-        .then(() => {
-
-          video.pause();
-
-          try {
-
-            video.currentTime =
-              0;
-
-          } catch (e) {}
-
-        })
-        .catch(() => {});
-
-
-      startScreen.classList.add(
-        "hidden"
-      );
-
-
-      const launch =
-        () => {
-
-
-          /*
-            Делаем WebGL-фон
-            полностью прозрачным.
-          */
-
-          if (
-            sceneEl.renderer
-          ) {
-
-            sceneEl.renderer
-              .setClearColor(
-                0x000000,
-                0
-              );
-
-          }
-
-
-          const system =
-            sceneEl.systems[
-              "mindar-image-system"
-            ];
-
-
-          if (system) {
-
-            system.start();
-
-          }
-
-
-          /*
-            Камера создаётся не
-            обязательно мгновенно.
-
-            Поэтому несколько раз
-            принудительно задаём ей
-            правильное положение.
-          */
-
-          setTimeout(
-            forceCameraBackground,
-            200
-          );
-
-          setTimeout(
-            forceCameraBackground,
-            600
-          );
-
-          setTimeout(
-            forceCameraBackground,
-            1200
-          );
-
-          setTimeout(
-            forceCameraBackground,
-            2500
-          );
-
-        };
-
-
-      if (
-        sceneEl.hasLoaded
-      ) {
-
-        launch();
-
-      } else {
-
-        sceneEl.addEventListener(
-          "loaded",
-          launch,
-          {
-            once: true
-          }
-        );
-
-      }
-
-    }
-
-
-
-
-    /*
-      -------------------------
-      СТРАНИЦА ЗАГРУЖЕНА
-      -------------------------
-    */
-
-    window.addEventListener(
+    document.addEventListener(
       "DOMContentLoaded",
-      () => {
+      function () {
 
 
-        video =
-          document.querySelector(
-            "#arena-video"
-          );
-
-
-        sceneEl =
+        const sceneEl =
           document.querySelector(
             "#ar-scene"
           );
 
 
-        hint =
+        const target =
           document.querySelector(
-            "#hint"
+            "#arena-target"
           );
 
 
-        soundBtn =
+        const video =
           document.querySelector(
-            "#sound-btn"
+            "#arena-video"
           );
 
 
-        startScreen =
+        const videoPlane =
+          document.querySelector(
+            "#arena-video-plane"
+          );
+
+
+        const startScreen =
           document.querySelector(
             "#start-screen"
           );
 
 
-
-        document
-          .querySelector(
+        const startButton =
+          document.querySelector(
             "#start-btn"
-          )
-          .addEventListener(
-            "click",
-            startAR
           );
+
+
+        const soundButton =
+          document.querySelector(
+            "#sound-btn"
+          );
+
+
+        const hint =
+          document.querySelector(
+            "#hint"
+          );
+
+
+        let targetVisible =
+          false;
+
+
+        let soundEnabled =
+          false;
+
+
+        let showTimer =
+          null;
 
 
 
         /*
-          ЗВУК
+         -------------------------
+         ЗАПУСК AR
+         -------------------------
         */
 
-        soundBtn.addEventListener(
+
+        startButton.addEventListener(
           "click",
-          async () => {
+          async function () {
+
+
+            /*
+             Сначала "разблокируем"
+             HTML-video этим
+             реальным нажатием пользователя.
+            */
+
+
+            video.muted = true;
+
+
+            try {
+
+              await video.play();
+
+              video.pause();
+
+              video.currentTime = 0;
+
+            }
+
+            catch (error) {
+
+              console.log(
+                "Unlock:",
+                error
+              );
+
+            }
+
+
+            startScreen.classList.add(
+              "hidden"
+            );
+
+
+            const startSystem =
+              () => {
+
+
+                const arSystem =
+                  sceneEl.systems[
+                    "mindar-image-system"
+                  ];
+
+
+                if (arSystem) {
+
+                  arSystem.start();
+
+                }
+
+              };
+
+
+            if (
+              sceneEl.hasLoaded
+            ) {
+
+              startSystem();
+
+            }
+
+            else {
+
+              sceneEl.addEventListener(
+                "loaded",
+                startSystem,
+                {
+                  once: true
+                }
+              );
+
+            }
+
+          }
+        );
+
+
+
+
+        /*
+         -------------------------
+         ОТКРЫТКА НАЙДЕНА
+         -------------------------
+        */
+
+
+        target.addEventListener(
+          "targetFound",
+          function () {
+
+
+            targetVisible =
+              true;
+
+
+            clearTimeout(
+              showTimer
+            );
+
+
+            video.pause();
+
+
+            try {
+
+              video.currentTime = 0;
+
+            }
+
+            catch (e) {}
+
+
+            /*
+             До истечения секунды
+             AR-видео физически скрыто.
+            */
+
+
+            videoPlane.setAttribute(
+              "visible",
+              false
+            );
+
+
+            videoPlane.setAttribute(
+              "material",
+              "opacity",
+              0
+            );
+
+
+            soundButton.style.display =
+              "none";
+
+
+            hint.innerHTML =
+              '<span class="green-dot"></span>Открытка найдена…';
+
+
+
+            /*
+             ЖЁСТКАЯ ПАУЗА
+             1 СЕКУНДА
+            */
+
+
+            showTimer =
+              setTimeout(
+                async function () {
+
+
+                  if (
+                    !targetVisible
+                  ) {
+
+                    return;
+
+                  }
+
+
+                  /*
+                   Показываем плоскость.
+                  */
+
+
+                  videoPlane.setAttribute(
+                    "visible",
+                    true
+                  );
+
+
+                  /*
+                   Видео запускаем
+                   БЕЗ ЗВУКА.
+
+                   Так надёжнее всего
+                   на мобильных браузерах.
+                  */
+
+
+                  video.muted =
+                    !soundEnabled;
+
+
+                  video.volume =
+                    1;
+
+
+                  try {
+
+                    await video.play();
+
+
+                    /*
+                     После успешного запуска
+                     начинаем fade-in.
+                    */
+
+
+                    videoPlane.setAttribute(
+                      "animation__fade",
+                      {
+                        property:
+                          "material.opacity",
+
+                        from:
+                          0,
+
+                        to:
+                          1,
+
+                        dur:
+                          700,
+
+                        easing:
+                          "easeInOutQuad"
+                      }
+                    );
+
+
+                    hint.innerHTML =
+                      '<span class="green-dot"></span>Самара Арена ожила ✨';
+
+
+                    soundButton.style.display =
+                      "block";
+
+                  }
+
+
+                  catch (error) {
+
+
+                    console.log(
+                      "PLAY ERROR:",
+                      error
+                    );
+
+
+                    hint.innerHTML =
+                      "Нажмите кнопку ▶ для запуска видео";
+
+
+                    soundButton.innerHTML =
+                      "▶ Запустить видео";
+
+
+                    soundButton.style.display =
+                      "block";
+
+                  }
+
+
+                },
+
+                1000
+              );
+
+          }
+        );
+
+
+
+
+        /*
+         -------------------------
+         ОТКРЫТКА ПОТЕРЯНА
+         -------------------------
+        */
+
+
+        target.addEventListener(
+          "targetLost",
+          function () {
+
+
+            targetVisible =
+              false;
+
+
+            clearTimeout(
+              showTimer
+            );
+
+
+            video.pause();
+
+
+            try {
+
+              video.currentTime = 0;
+
+            }
+
+            catch (e) {}
+
+
+            videoPlane.removeAttribute(
+              "animation__fade"
+            );
+
+
+            videoPlane.setAttribute(
+              "material",
+              "opacity",
+              0
+            );
+
+
+            videoPlane.setAttribute(
+              "visible",
+              false
+            );
+
+
+            hint.innerHTML =
+              "Наведите камеру на открытку";
+
+
+            soundButton.style.display =
+              "none";
+
+          }
+        );
+
+
+
+
+        /*
+         -------------------------
+         КНОПКА ЗВУКА
+         -------------------------
+        */
+
+
+        soundButton.addEventListener(
+          "click",
+          async function () {
+
+
+            /*
+             Если видео почему-то
+             не стартовало автоматически,
+             это нажатие запускает его.
+            */
+
+
+            if (
+              video.paused
+            ) {
+
+
+              videoPlane.setAttribute(
+                "visible",
+                true
+              );
+
+
+              video.muted =
+                true;
+
+
+              try {
+
+                await video.play();
+
+              }
+
+              catch (error) {
+
+                console.log(
+                  error
+                );
+
+              }
+
+
+              videoPlane.setAttribute(
+                "material",
+                "opacity",
+                1
+              );
+
+            }
+
+
+            /*
+             Теперь переключаем звук.
+            */
 
 
             soundEnabled =
@@ -1414,38 +787,38 @@
               !soundEnabled;
 
 
-            soundBtn.textContent =
+            video.volume =
+              1;
+
+
+            soundButton.innerHTML =
               soundEnabled
               ? "🔇 Выключить звук"
               : "🔊 Включить звук";
 
 
-            if (
-              targetVisible
-            ) {
+            /*
+             play() вызываем именно
+             внутри клика пользователя.
+            */
 
-              try {
 
-                await video.play();
+            try {
 
-              } catch (e) {}
+              await video.play();
+
+            }
+
+            catch (error) {
+
+              console.log(
+                "Audio error:",
+                error
+              );
 
             }
 
           }
-        );
-
-
-
-        /*
-          Дополнительная страховка:
-          если браузер перестроил
-          элементы после поворота экрана.
-        */
-
-        window.addEventListener(
-          "resize",
-          forceCameraBackground
         );
 
       }
@@ -1456,51 +829,29 @@
 </head>
 
 
-
 <body>
 
-
-  <!-- СТАРТОВЫЙ ЭКРАН -->
 
   <div id="start-screen">
 
     <div id="start-card">
 
-      <div id="project-name">
-        Над Самарой
+      <div id="project">
+        НАД САМАРОЙ
       </div>
-
 
       <h1 id="title">
         Живая открытка
       </h1>
 
+      <div id="description">
 
-      <p id="subtitle">
-        Самара Арена оживает
-        прямо на экране телефона
-      </p>
+        Нажмите кнопку,
+        разрешите доступ к камере
+        и наведите телефон
+        на открытку.
 
-
-      <ul class="steps">
-
-        <li>
-          <span>1.</span>
-          Нажмите «Запустить открытку»
-        </li>
-
-        <li>
-          <span>2.</span>
-          Разрешите доступ к камере
-        </li>
-
-        <li>
-          <span>3.</span>
-          Наведите телефон на фотографию
-        </li>
-
-      </ul>
-
+      </div>
 
       <button id="start-btn">
 
@@ -1508,20 +859,11 @@
 
       </button>
 
-
-      <div id="author">
-
-        Проект «Над Самарой» · Бобин Сергей
-
-      </div>
-
     </div>
 
   </div>
 
 
-
-  <!-- ИНТЕРФЕЙС AR -->
 
   <div id="brand">
 
@@ -1529,12 +871,6 @@
 
   </div>
 
-
-  <div id="hint">
-
-    Наведите камеру на открытку
-
-  </div>
 
 
   <button id="sound-btn">
@@ -1545,117 +881,130 @@
 
 
 
-  <!-- AR-СЦЕНА -->
+  <div id="hint">
 
-  <a-scene
+    Наведите камеру на открытку
 
-    id="ar-scene"
-
-    mindar-image="
-      imageTargetSrc: ./targets.mind;
-      autoStart: false;
-    "
-
-    color-space="sRGB"
-
-    renderer="
-      colorManagement: true;
-      physicallyCorrectLights: true;
-      alpha: true;
-      antialias: true;
-    "
-
-    background="
-      transparent: true;
-    "
-
-    vr-mode-ui="
-      enabled: false
-    "
-
-    device-orientation-permission-ui="
-      enabled: false
-    "
-
-  >
-
-
-    <a-assets>
-
-
-      <video
-
-        id="arena-video"
-
-        src="./2026-09-19%2009.06.10.mp4"
-
-        preload="auto"
-
-        loop
-
-        muted
-
-        playsinline
-
-        webkit-playsinline
-
-        crossorigin="anonymous"
-
-      ></video>
-
-
-    </a-assets>
+  </div>
 
 
 
-    <a-camera
+  <div id="ar-container">
 
-      position="0 0 0"
 
-      look-controls="
+    <a-scene
+
+      id="ar-scene"
+
+      mindar-image="
+        imageTargetSrc: ./targets.mind;
+        autoStart: false;
+        uiLoading: no;
+        uiError: no;
+        uiScanning: no;
+      "
+
+      embedded
+
+      color-space="sRGB"
+
+      renderer="
+        colorManagement: true;
+        physicallyCorrectLights: true;
+      "
+
+      vr-mode-ui="
         enabled: false
       "
 
-    ></a-camera>
-
-
-
-    <a-entity
-
-      id="arena-target"
-
-      mindar-image-target="
-        targetIndex: 0
+      device-orientation-permission-ui="
+        enabled: false
       "
-
-      video-controller
 
     >
 
 
-      <a-plane
+      <a-assets
+        timeout="10000"
+      >
 
-        id="video-plane"
 
-        position="0 0 0.01"
+        <video
 
-        width="1"
+          id="arena-video"
 
-        height="0.667"
+          src="./2026-09-19%2009.06.10.mp4"
 
-        visible="false"
+          preload="auto"
 
-        video-fx="
-          video: #arena-video
+          loop
+
+          muted
+
+          playsinline
+
+          webkit-playsinline
+
+        ></video>
+
+
+      </a-assets>
+
+
+
+      <a-camera
+
+        position="0 0 0"
+
+        look-controls="
+          enabled: false
         "
 
-      ></a-plane>
+      ></a-camera>
 
 
-    </a-entity>
+
+      <a-entity
+
+        id="arena-target"
+
+        mindar-image-target="
+          targetIndex: 0
+        "
+
+      >
 
 
-  </a-scene>
+        <a-video
+
+          id="arena-video-plane"
+
+          src="#arena-video"
+
+          position="0 0 0.01"
+
+          width="1"
+
+          height="0.6664"
+
+          visible="false"
+
+          material="
+            shader: flat;
+            transparent: true;
+            opacity: 0;
+          "
+
+        ></a-video>
+
+
+      </a-entity>
+
+
+    </a-scene>
+
+
+  </div>
 
 
 </body>
